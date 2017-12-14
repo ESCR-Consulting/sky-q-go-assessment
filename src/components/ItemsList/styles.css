@@ -5,3 +5,11 @@
 .itemsList-ul li {
   padding: 5px;
 }
+
+.item button {
+  margin-left: 5px;
+}
+
+.item--itemCompleted {
+ text-decoration: line-through;
+}
