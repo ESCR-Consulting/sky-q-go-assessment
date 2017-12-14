@@ -1,14 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { removeItem } from '../../logic/todos';
 import './styles.css';
 
-export const ItemsList = ({ items }) => {
+export const ItemsList = ({ items, onRemove }) => {
   return (
     <div>
       <ul className="itemsList-ul">
         {items.length < 1 && <p id="items-missing">Add some tasks above.</p>}
-        {items.map(item => <li key={item.id}>{item.content}</li>)}
+        {items.map(item =>
+          <li key={item.id}>
+            {item.content}
+            <button onClick={() => onRemove(item.id)} className="itemRemove-button">Remove</button>
+          </li>
+        )}
       </ul>
     </div>
   );
@@ -22,4 +28,8 @@ const mapStateToProps = state => {
   return { items: state.todos.items };
 };
 
-export default connect(mapStateToProps)(ItemsList);
+const mapDispatchToProps = dispatch => ({
+    onRemove: id => dispatch(removeItem(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemsList);

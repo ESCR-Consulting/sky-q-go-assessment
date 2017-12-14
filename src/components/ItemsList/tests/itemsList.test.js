@@ -1,9 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { ItemsList } from '../index';
 
 const defaultProps = {
   items: [],
+  onRemove: f => f,
 };
 
 describe('ItemsList', () => {
@@ -26,5 +27,13 @@ describe('ItemsList', () => {
     const items = [{ id: 1, content: 'Test 1' }, { id: 2, content: 'Test 2' }];
     const renderedItem = shallow(<ItemsList {...defaultProps} items={items} />);
     expect(renderedItem.find('li')).toHaveLength(2);
+  });
+
+  it('should call onRemove with item id', () => {
+    const onRemoveMock = jest.fn();
+    const items = [{ id: 1, content: 'Test 1' }];
+    const renderedItem = mount(<ItemsList {...defaultProps} items={items} onRemove={onRemoveMock}/>);
+    renderedItem.find('.itemRemove-button').simulate('click')
+    expect(onRemoveMock.mock.calls.length).toBe(1)
   });
 });
