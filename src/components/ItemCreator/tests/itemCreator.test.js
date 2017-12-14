@@ -22,6 +22,15 @@ describe('ItemCreator', () => {
     expect(onAddMock.mock.calls[0][0]).toBe('New Test Item');
   });
 
+  it('should call onToggleCompleted', () => {
+    const onToggleCompletedMock = jest.fn();
+    const renderedItem = mount(
+      <ItemCreator {...defaultProps} onToggleCompleted={onToggleCompletedMock} />
+    );
+    renderedItem.find('.itemCreator-toggleCompleted-button').simulate('click');
+    expect(onToggleCompletedMock.mock.calls.length).toBe(1);
+  });
+
   it('should clear the input onAdd', () => {
     const renderedItem = mount(<ItemCreator {...defaultProps} />);
     renderedItem.find('.itemCreator-input').node.value = 'New Test Item';
